@@ -24,6 +24,7 @@ const oauth2Client = new google.auth.OAuth2(
 
 oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
+//Initializing drive api
 const drive = google.drive({
     version: 'v3',
     auth: oauth2Client,
@@ -34,17 +35,17 @@ filepath which needs to be uploaded
 Note: Assumes example.jpg file is in root directory, 
 though this can be any filePath
 */
-const filePath = path.join(__dirname, 'example.jpg');
+const filePath = path.join(__dirname, 'upload1.png');
 
 async function uploadFile() {
     try {
         const response = await drive.files.create({
             requestBody: {
-                name: 'example.jpg', //This can be name of your choice
-                mimeType: 'image/jpg',
+                name: 'upload1.png', //This can be name of your choice
+                mimeType: 'image/png',
             },
             media: {
-                mimeType: 'image/jpg',
+                mimeType: 'image/png',
                 body: fs.createReadStream(filePath),
             },
         });
@@ -60,7 +61,7 @@ async function uploadFile() {
 async function deleteFile() {
     try {
         const response = await drive.files.delete({
-            fileId: 'YOUR FILE ID',
+            fileId: '1GatSDJOsWDSEoL_7jnAqLw3m3uc5UOGk',
         });
         console.log(response.data, response.status);
     } catch (error) {
@@ -72,7 +73,7 @@ async function deleteFile() {
 
 async function generatePublicUrl() {
     try {
-        const fileId = 'YOUR FILE ID';
+        const fileId = '1gUVzJa6lAnPs-F2sj8bppR6jIAhBoSKI';
         await drive.permissions.create({
             fileId: fileId,
             requestBody: {
@@ -95,4 +96,4 @@ async function generatePublicUrl() {
     }
 }
 
-// generatePublicUrl();
+generatePublicUrl();
